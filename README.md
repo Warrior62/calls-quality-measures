@@ -2,6 +2,10 @@
 
 ### A python tool which puts Rainbow log's quality indicators fields' values into a csv file
 
+### Check wether Python is installed
+If Python isn't installed on your computer, please download it from this link :
+[Download page](https://www.python.org/downloads/)
+
 ### *How to run it ?*
 
 #### On Windows :
