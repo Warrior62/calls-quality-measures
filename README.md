@@ -14,7 +14,7 @@ If Python isn't installed on your computer, please download it from this link :
 
 ##### 2. Run the first python program which will download a Rainbow log :
 ```shell
-py download_log.py
+py download_log.py <mail_account> <password_account>
 ```
 
 ##### 3. Run the second python program which will display the metrics from the downloaded Rainbow log :
