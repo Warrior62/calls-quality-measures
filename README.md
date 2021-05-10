@@ -13,7 +13,7 @@ py download_log.py
 
 ##### 2. Run the second python program which will display the metrics from the downloaded Rainbow log :
 ```shell
-py get_aulity_values_rainbow_log.py
+py get_quality_values_rainbow_log.py
 ```
 
 ##### 3. Finished !
