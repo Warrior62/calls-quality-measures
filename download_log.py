@@ -18,7 +18,7 @@ if len(sys.argv) > 2:
 else:
     print("Any password was typed!")
     print("--> END OF PROGRAM...")
-    sys.exit(-1)
+    
 
 rainbow_url = "https://web.openrainbow.com"
 driver = webdriver.Chrome(ChromeDriverManager().install())
@@ -30,8 +30,7 @@ def watchdog():
     can_continue = "N"
     while can_continue == "N":
         can_continue = input("Est-ce qu'au moins 1 appel a été passé depuis l'exécution du programme ? [y/N]")
-        if can_continue == "y":
-            return True
+    return True
 
 def login():
     mail_input = WebDriverWait(driver, 10).until(
@@ -103,6 +102,6 @@ if __name__ == "__main__":
         get_profile_list()
         get_about_rainbow_page()
         download_log()
-        print("--> END OF PROGRAM...")
         time.sleep(3)
         driver.close()
+        print("--> PLEASE RUN get_quality_values_rainbow_log.py")

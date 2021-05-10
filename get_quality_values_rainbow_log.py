@@ -1,4 +1,4 @@
-import re, ast, csv, sys, os, glob
+import re, ast, csv, sys, os, glob, platform
 import pandas as pd
 
 mos = "MOS"
@@ -21,19 +21,27 @@ csv_columns = ['timestamp','meanMOS','googJitterBufferMsAudio','packetsAudioLoss
 csv_file = "stats.csv"
 stats_list = []
 
-
-
         
 # Get the latest created filename into a directory
 def get_latest_filename():
-    path_to_watch = r"C:\Users\10150573\Downloads\*"
+    flag = False
+    while not flag:
+        path = input("Path of the Downloads folder of your computer : ")
+        if os.path.isdir(path):
+            flag = True
+            if platform.system() == "Windows":
+                if path[-1] == "\\":
+                    path += "*"
+                else:
+                    path += "\\*"
+                path_to_watch = r""
+                path_to_watch += path
     list_of_files = glob.glob(path_to_watch) 
     latest_file = max(list_of_files, key=os.path.getctime)
-    print(latest_file)
+    print("Latest Log : ", latest_file)
     return latest_file
 
 # Create a csv file which contains stats dictionnary
-"""
 def create_csv_file(csv_file, csv_columns, dict_data):
     try:
         with open(csv_file, 'w') as csvfile:
@@ -43,8 +51,7 @@ def create_csv_file(csv_file, csv_columns, dict_data):
                 writer.writerow(data)
     except IOError:
         print("I/O error")
-"""   
-   
+        
 # Create a list which contains the <pattern> values
 def create_stats_values_list(occ, isTimestamp):
     result = []
@@ -76,17 +83,26 @@ def calculate_packets_loss(list_sent, list_received):
         result.append(round(diff, 2))
     return result
 
+# Ask user whether he wants the program to create a csv file and store datas into it
+def ask_csv_file_creation(csv_file, csv_columns, stats_list):
+    answer = input("Do you want to store datas into a CSV file ? [y/N] ")
+    if answer == "y":
+        # Create a csv file which contains stats dictionnary
+        create_csv_file(csv_file, csv_columns, stats_list)
+    else:    
+        # Create a Pandas Dataframe which will be displayed into the terminal
+        df = pd.DataFrame(stats_list)
+        print(df)
 
-logname = get_latest_filename()
 
-
-if __name__ == '__main__':        
+if __name__ == '__main__':     
+    print("--> ASSESSING THE QUALITY...")
+    logname = get_latest_filename()
     # Open the log file
     with open(logname, "r") as f:
         content = f.read()
         if (mos in content) and (jitter in content):
-            print("mos and jitter in content")
-            print("Creation of a csv file in progress...")
+            print("at least mos and jitter in content")
             mean_mos_occ = re.findall(pattern_mean_mos, content)
             jitter_occ = re.findall(pattern_jitter, content)
             packets_sent_audio_occ = re.findall(pattern_packets_sent_audio, content)
@@ -125,12 +141,10 @@ if __name__ == '__main__':
                 new_tuple = dict(new_tuple)
                 stats_list.append(new_tuple)
             
-            df = pd.DataFrame(stats_list)
-            print(df)
-            # Create a csv file which contains stats dictionnary
-            #create_csv_file(csv_file, csv_columns, stats_list)
+            # Ask user whether he wants the program to create a csv file and store datas into it
+            ask_csv_file_creation(csv_file, csv_columns, stats_list)
         else:
             print("mos is not in content")
             print("Any csv file was created!")
-        print("--> END OF PROGRAM...")
         f.close()
+    print("--> END OF PROGRAM ")
