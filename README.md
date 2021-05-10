@@ -4,16 +4,17 @@
 
 ### *How to run it ?*
 
-##### 1. Run the python program :
+#### On Windows :
+
+##### 1. Run the first python program which will download a Rainbow log :
 ```shell
-python3 get-stats-rainbow-log.py
+py download_log.py
 ```
 
-##### 2. Type the Rainbow log pathname :
-###### Example :
+##### 2. Run the second python program which will display the metrics from the downloaded Rainbow log :
 ```shell
-/home/dupont/nom-fichier-log.log
+py get_aulity_values_rainbow_log.py
 ```
 
-##### 3. Press enter
-A "stats.csv" file will be created.
+##### 3. Finished !
+Either a "stats.csv" file will be created or a Pandas DataFrame will be displayed into the terminal.
