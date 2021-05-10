@@ -6,7 +6,7 @@
 If Python isn't installed on your computer, please download it from this link :
 [Download page](https://www.python.org/downloads/)
 
-### *How to run it ?*
+### How to run it ?
 
 #### On Windows :
 
