@@ -6,19 +6,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-if len(sys.argv) > 1:
-    mail_login = sys.argv[1]
-else:
-    print("Any mail address was typed!")
-    print("--> END OF PROGRAM...")
-    sys.exit(-1)
-    
-if len(sys.argv) > 2:
-    pwd_login = sys.argv[2]
-else:
-    print("Any password was typed!")
-    print("--> END OF PROGRAM...")
-    
+mail_login = input("Rainbow mail address: ")
+pwd_login = input("Rainbow password: ")
 
 rainbow_url = "https://web.openrainbow.com"
 driver = webdriver.Chrome(ChromeDriverManager().install())
