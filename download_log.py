@@ -1,4 +1,4 @@
-import sys, os, csv, glob, time, shutil
+import sys, os, csv, glob, time, shutil, pathlib
 
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -6,22 +6,22 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-if len(sys.argv) > 1:
-    mail_login = sys.argv[1]
-else:
-    print("Any mail address was typed!")
-    print("--> END OF PROGRAM...")
-    sys.exit(-1)
-    
-if len(sys.argv) > 2:
-    pwd_login = sys.argv[2]
-else:
-    print("Any password was typed!")
-    print("--> END OF PROGRAM...")
-    
+
+
+mail_login = input('Rainbow mail adress: ')
+pwd_login = input('Rainbow password: ')
 
 rainbow_url = "https://web.openrainbow.com"
-driver = webdriver.Chrome(ChromeDriverManager().install())
+
+#object of ChromeOptions
+op = webdriver.ChromeOptions()
+current_dir_path = str(pathlib.Path().absolute())
+#set download directory path
+p = {"download.default_directory": current_dir_path,"safebrowsing.enabled":"false"}
+#adding preferences to ChromeOptions
+op.add_experimental_option("prefs", p)
+
+driver = webdriver.Chrome(executable_path="chromedriver.exe", options=op)
 driver.get(rainbow_url)
 
 
@@ -85,6 +85,7 @@ def get_about_rainbow_page():
     print("About Rainbow page displayed!")
     
 def download_log():
+    #driver = webdriver.Chrome(executable_path="chromedriver.exe", options=op)
     save_log_btn = WebDriverWait(driver, 10).until(
                     EC.element_to_be_clickable((By.XPATH, '//*[@id="popup"]/userwindow/userwindow-content/div[2]/settingsabout/div/square-button'))
                 )

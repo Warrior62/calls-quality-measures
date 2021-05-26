@@ -1,4 +1,4 @@
-import re, ast, csv, sys, os, glob, platform
+import re, ast, csv, sys, os, glob, platform, pathlib
 import pandas as pd
 
 mos = "MOS"
@@ -8,6 +8,7 @@ pattern_mean_mos = '"meanMOS":[0-5].[0-9]{0,15}'
 pattern_jitter = '"googJitterBufferMsAudio":[0-9]{0,3}'
 pattern_packets_sent_audio = '"packetsAudioSent":[0-9]{0,20}'
 pattern_packets_received_audio = '"packetsAudioReceived":[0-9]{0,20}'
+pattern_mos_packets_lost_audio = '"mosPacketsLostAudio":[0-9]{0,20}'
 pattern_timestamp = "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3} INFO \[videoService\] on webrtcSessionStatsSimplyfied for session"
 
 result_mean_mos = []
@@ -17,7 +18,7 @@ result_timestamps = []
 result_packets_sent_audio = []
 result_packets_received_audio = []
 
-csv_columns = ['timestamp','meanMOS','googJitterBufferMsAudio','packetsAudioLoss (in %)']
+csv_columns = ['timestamp','meanMOS','googJitterBufferMsAudio','packetsAudioLoss (in %)','mosPacketsLostAudio']
 csv_file = "stats.csv"
 stats_list = []
 
@@ -26,7 +27,7 @@ stats_list = []
 def get_latest_filename():
     flag = False
     while not flag:
-        path = input("Path of the Downloads folder of your computer : ")
+        path = str(pathlib.Path().absolute())
         if os.path.isdir(path):
             flag = True
             if platform.system() == "Windows":
@@ -101,12 +102,13 @@ if __name__ == '__main__':
     # Open the log file
     with open(logname, "r") as f:
         content = f.read()
-        if (mos in content) and (jitter in content):
+        if logname.endswith('.log') and (mos in content) and (jitter in content):
             print("at least mos and jitter in content")
             mean_mos_occ = re.findall(pattern_mean_mos, content)
             jitter_occ = re.findall(pattern_jitter, content)
             packets_sent_audio_occ = re.findall(pattern_packets_sent_audio, content)
             packets_received_audio_occ = re.findall(pattern_packets_received_audio, content)
+            mos_packets_lost_audio_occ = re.findall(pattern_mos_packets_lost_audio, content)
             timestamps_occ = re.findall(pattern_timestamp, content)
             
             # Create a list which contains the meanMos values
@@ -120,6 +122,9 @@ if __name__ == '__main__':
             
             # Create a list which contains the packetsAudioReceived values
             result_packets_received_audio = create_stats_values_list(packets_received_audio_occ, False)
+            
+            # Create a list which contains the mosPacketsLostAudio values
+            result_mos_packets_lost_audio_occ = create_stats_values_list(mos_packets_lost_audio_occ, False)
             
             # Create a list which contains the timestamps values
             result_timestamps = create_stats_values_list(timestamps_occ, True)
@@ -137,6 +142,8 @@ if __name__ == '__main__':
                 single_tuple = ("googJitterBufferMsAudio", result_jitter[i])
                 new_tuple.append(single_tuple)
                 single_tuple = ("packetsAudioLoss (in %)", result_packets_audio_lost[i])
+                new_tuple.append(single_tuple)
+                single_tuple = ("mosPacketsLostAudio", result_mos_packets_lost_audio_occ[i])
                 new_tuple.append(single_tuple)
                 new_tuple = dict(new_tuple)
                 stats_list.append(new_tuple)
