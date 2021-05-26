@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import os, sys, platform, pathlib
+=======
+import os, sys, platform
+>>>>>>> 3837048ab7f5f75e99e40fe3ce5ba9dacd3f4738
 
 url_repo_github = 'https://github.com/Warrior62/calls-quality-measures.git'
 def get_github_repo(url_repo_github):
@@ -26,7 +30,11 @@ def install_python_modules():
         if not os.path.exists('myenv'):
             os.system('python -m venv myenv')
         os.system('myenv/bin/activate')
+<<<<<<< HEAD
     #os.chdir(github_folder)
+=======
+    os.chdir(github_folder)
+>>>>>>> 3837048ab7f5f75e99e40fe3ce5ba9dacd3f4738
     os.system('pip install platform')
     os.system('pip install pandas')
     os.system('pip install selenium')
@@ -54,6 +62,7 @@ def get_quality_values():
         print('get_quality_values_rainbow_log.py file doesn\'t exist !')
         sys.exit(-1)
     print('get_quality_values')
+<<<<<<< HEAD
     
 def delete_last_downloaded_log():
     current_dir_path = str(pathlib.Path().absolute())
@@ -61,10 +70,16 @@ def delete_last_downloaded_log():
     latest_file = max(list_of_files, key=os.path.getctime)
     os.remove(latest_file)
     print("Latest Log : ", latest_file, 'has been deleted!')
+=======
+>>>>>>> 3837048ab7f5f75e99e40fe3ce5ba9dacd3f4738
         
 
 get_github_repo(url_repo_github)
 install_python_modules()
 download_rainbow_log()
 get_quality_values()
+<<<<<<< HEAD
 delete_last_downloaded_log()
+=======
+
+>>>>>>> 3837048ab7f5f75e99e40fe3ce5ba9dacd3f4738

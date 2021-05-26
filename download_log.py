@@ -6,10 +6,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
+<<<<<<< HEAD
 
 
 mail_login = input('Rainbow mail adress: ')
 pwd_login = input('Rainbow password: ')
+=======
+mail_login = input("Rainbow mail address: ")
+pwd_login = input("Rainbow password: ")
+>>>>>>> 3837048ab7f5f75e99e40fe3ce5ba9dacd3f4738
 
 rainbow_url = "https://web.openrainbow.com"
 
